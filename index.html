@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Daniil Romanov — DPhil in Politics, Oxford</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --text: #1a1a18;
+      --text-secondary: #5f5e5a;
+      --text-tertiary: #888780;
+      --bg: #faf9f7;
+      --bg-secondary: #f1efe8;
+      --border: rgba(0,0,0,0.12);
+      --border-secondary: rgba(0,0,0,0.22);
+      --blue-bg: #e6f1fb;
+      --blue-text: #185fa5;
+      --amber-bg: #faeeda;
+      --amber-text: #854f0b;
+      --green-bg: #eaf3de;
+      --green-text: #3b6d11;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --text: #e8e6e0;
+        --text-secondary: #b4b2a9;
+        --text-tertiary: #888780;
+        --bg: #1c1c1a;
+        --bg-secondary: #2c2c2a;
+        --border: rgba(255,255,255,0.1);
+        --border-secondary: rgba(255,255,255,0.2);
+        --blue-bg: #0c447c;
+        --blue-text: #b5d4f4;
+        --amber-bg: #633806;
+        --amber-text: #fac775;
+        --green-bg: #27500a;
+        --green-text: #c0dd97;
+      }
+    }
+
+    html { font-size: 16px; }
+    body {
+      font-family: 'EB Garamond', Georgia, serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.75;
+      min-height: 100vh;
+    }
+
+    .container { max-width: 780px; margin: 0 auto; padding: 2.5rem 1.5rem 4rem; }
+    .site-header { margin-bottom: 2.5rem; }
+
+    .hero {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 2rem;
+      align-items: start;
+      margin-bottom: 2rem;
+    }
+    .hero-text h1 { font-size: 2.2rem; font-weight: 400; line-height: 1.15; margin-bottom: 0.35rem; }
+    .role { font-family: 'DM Mono', monospace; font-size: 12px; letter-spacing: 0.05em; color: var(--text-secondary); }
+    .avatar {
+      width: 90px; height: 90px; border-radius: 50%;
+      background: var(--bg-secondary); border: 0.5px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'DM Mono', monospace; font-size: 20px; color: var(--text-secondary); flex-shrink: 0;
+    }
+
+    nav { display: flex; border-bottom: 0.5px solid var(--border); }
+    nav button {
+      font-family: 'DM Mono', monospace; font-size: 12px; letter-spacing: 0.06em;
+      color: var(--text-secondary); background: none; border: none;
+      border-bottom: 2px solid transparent; padding: 0.6rem 1.2rem 0.6rem 0;
+      margin-bottom: -0.5px; cursor: pointer; transition: color 0.15s;
+    }
+    nav button:hover { color: var(--text); }
+    nav button.active { color: var(--text); border-bottom-color: var(--text); }
+
+    .tab-section { display: none; padding-top: 2rem; }
+    .tab-section.active { display: block; }
+
+    .section-label {
+      font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.1em;
+      color: var(--text-tertiary); text-transform: uppercase;
+      margin-bottom: 1.1rem; padding-bottom: 0.6rem; border-bottom: 0.5px solid var(--border);
+    }
+
+    .bio p { font-size: 16px; line-height: 1.85; }
+    .bio p + p { margin-top: 1rem; }
+    .tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 1.2rem; }
+    .tag {
+      font-family: 'DM Mono', monospace; font-size: 11px;
+      padding: 3px 10px; border: 0.5px solid var(--border-secondary);
+      border-radius: 3px; color: var(--text-secondary);
+    }
+
+    .pub { padding: 1.1rem 0; border-bottom: 0.5px solid var(--border); }
+    .pub:last-child { border-bottom: none; }
+    .pub-title { font-size: 15.5px; font-style: italic; margin-bottom: 0.3rem; }
+    .pub-authors { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--text-secondary); margin-bottom: 0.3rem; }
+    .pub-authors strong { color: var(--text); font-weight: 500; }
+    .pub-ref { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--text-secondary); display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+    .pub-journal { font-family: 'EB Garamond', serif; font-size: 14px; font-style: italic; color: var(--text); font-weight: 500; }
+    .pub-status { font-family: 'DM Mono', monospace; font-size: 10px; padding: 1px 7px; border-radius: 3px; font-style: normal; }
+    .forthcoming { background: var(--blue-bg); color: var(--blue-text); }
+    .accepted    { background: var(--green-bg); color: var(--green-text); }
+    .rr          { background: var(--amber-bg); color: var(--amber-text); }
+    .pub-doi { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--text-tertiary); text-decoration: none; border-bottom: 0.5px solid var(--border); }
+    .pub-doi:hover { color: var(--text-secondary); }
+    .pub-note {
+      margin-top: 0.6rem; padding: 0.55rem 0.9rem;
+      background: var(--bg-secondary); border-left: 2px solid var(--border-secondary);
+      border-radius: 0 4px 4px 0; font-size: 13.5px; color: var(--text-secondary); font-style: italic;
+    }
+    .pub-note .award {
+      font-style: normal; font-family: 'DM Mono', monospace; font-size: 11px;
+      color: var(--text-secondary); display: block; margin-bottom: 5px;
+    }
+
+    /* TEACHING */
+    .teaching-group { margin-bottom: 2rem; }
+    .teaching-group-label {
+      font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.08em;
+      color: var(--text-tertiary); text-transform: uppercase;
+      margin-bottom: 0.6rem; padding-bottom: 0.4rem;
+      border-bottom: 0.5px solid var(--border);
+    }
+    .course {
+      padding: 0.7rem 0; border-bottom: 0.5px solid var(--border);
+    }
+    .course:last-child { border-bottom: none; }
+    .course-header { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; margin-bottom: 0.15rem; }
+    .course-name { font-size: 15px; font-style: italic; }
+    .course-year { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--text-tertiary); white-space: nowrap; flex-shrink: 0; }
+    .course-meta { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--text-secondary); }
+    .course-role {
+      display: inline-block; font-family: 'DM Mono', monospace; font-size: 10px;
+      padding: 1px 7px; border-radius: 3px; margin-left: 6px;
+      background: var(--bg-secondary); color: var(--text-secondary); border: 0.5px solid var(--border);
+    }
+    .course-level { color: var(--text-tertiary); }
+
+    .contacts { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; }
+    .contact-item { background: var(--bg-secondary); border-radius: 8px; padding: 0.85rem 1.1rem; }
+    .contact-label { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.08em; color: var(--text-tertiary); text-transform: uppercase; margin-bottom: 3px; }
+    .contact-val { font-size: 14px; color: var(--text); }
+    .contact-val a { color: var(--text); text-decoration: none; border-bottom: 0.5px solid var(--border-secondary); }
+    .contact-val a:hover { color: var(--text-secondary); }
+
+    footer { margin-top: 4rem; padding-top: 1.2rem; border-top: 0.5px solid var(--border); font-family: 'DM Mono', monospace; font-size: 11px; color: var(--text-tertiary); text-align: center; }
+
+    @media (max-width: 500px) {
+      .hero { grid-template-columns: 1fr; }
+      .avatar { display: none; }
+      nav button { padding: 0.6rem 0.7rem 0.6rem 0; font-size: 11px; }
+      .course-header { flex-direction: column; gap: 0.1rem; }
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+
+  <div class="site-header">
+    <div class="hero">
+      <div class="hero-text">
+        <p class="role">DPhil in Politics · University of Oxford</p>
+        <h1>Daniil Romanov</h1>
+      </div>
+      <div class="avatar" aria-hidden="true">DR</div>
+    </div>
+    <nav>
+      <button class="active" onclick="showTab('about', this)">about</button>
+      <button onclick="showTab('research', this)">research</button>
+      <button onclick="showTab('teaching', this)">teaching</button>
+      <button onclick="showTab('contact', this)">contact</button>
+    </nav>
+  </div>
+
+  <!-- ABOUT -->
+  <section class="tab-section active" id="tab-about">
+    <div class="bio">
+      <p>My research spans public opinion, the political economy of technology and their regulation, political institutions in both democratic and authoritarian contexts, political communication, and international studies. At the core of this agenda lies a sustained interest in how digital technologies — social media platforms, messaging applications, AI, and censorship circumvention tools — are deployed by political actors, reshape political processes, and shape the beliefs and attitudes of citizens.</p>
+      <p>Alongside this, I maintain a sustained research interest in the politics of autocratisation and democratisation, and in the study of political institutions — in particular elections. I also pursue research on political communication, with a particular focus on propaganda and its effects on public opinion.</p>
+      <p>Geographically, my work has centred on Russia and China, though I have increasingly turned to international studies, including questions of how authoritarian states influence one another and project that influence into Western European and North American democracies. Methodologically, I draw on survey experiments (conjoint, vignette, list designs), large-scale digital trace data, text-as-data approaches, and geospatial data.</p>
+      <p>Over the course of a five-year academic career, I have published or had conditionally accepted 11 papers in leading political science journals.</p>
+    </div>
+    <div class="tags">
+      <span class="tag">public opinion</span>
+      <span class="tag">political technology</span>
+      <span class="tag">autocratisation</span>
+      <span class="tag">political communication</span>
+      <span class="tag">propaganda</span>
+      <span class="tag">elections</span>
+      <span class="tag">Russia</span>
+      <span class="tag">China</span>
+      <span class="tag">survey experiments</span>
+      <span class="tag">text-as-data</span>
+      <span class="tag">digital trace data</span>
+      <span class="tag">geospatial data</span>
+    </div>
+  </section>
+
+  <!-- RESEARCH -->
+  <section class="tab-section" id="tab-research">
+    <div class="section-label">Publications</div>
+
+    <div class="pub">
+      <div class="pub-title">Fighting censorship circumvention with propaganda</div>
+      <div class="pub-authors"><strong>Romanov, D.</strong></div>
+      <div class="pub-ref">
+        <span class="pub-journal">American Journal of Political Science</span>
+        <span class="pub-status accepted">accepted</span>
+        <span>(2026)</span>
+      </div>
+      <div class="pub-note">
+        <span class="award">&#127942; Best PhD Student Paper on Repression, Surveillance and Censorship — Sciences Po, EHESS, Paris Nanterre Université (2025)</span>
+        "...This is the first time I've recommended publication of a manuscript as-is. It's great." — anonymous reviewer
+      </div>
+    </div>
+
+    <div class="pub">
+      <div class="pub-title">Patriotic education in Russia: Will it achieve loyalty?</div>
+      <div class="pub-authors">Kozlov, V., <strong>Romanov, D.</strong>, Balalaeva, D., &amp; Fominykh, I.</div>
+      <div class="pub-ref">
+        <span class="pub-journal">Post-Soviet Affairs</span>
+        <span>(2026), 1–31</span>
+        <a class="pub-doi" href="https://doi.org/10.1080/1060586X.2026.2643798" target="_blank">doi:10.1080/1060586X.2026.2643798</a>
+      </div>
+    </div>
+
+    <div class="pub">
+      <div class="pub-title">Everything for the front, everything for victory? Elite incentives and rhetorical adaptation of Russia's members of parliament on social media</div>
+      <div class="pub-authors">Khokhlov, N., <strong>Romanov, D.</strong>, &amp; Baturo, A.</div>
+      <div class="pub-ref">
+        <span class="pub-journal">Political Communication</span>
+        <span class="pub-status forthcoming">forthcoming</span>
+        <span>(2026)</span>
+        <a class="pub-doi" href="https://doi.org/10.1080/10584609.2026.2664717" target="_blank">doi:10.1080/10584609.2026.2664717</a>
+      </div>
+    </div>
+
+    <div class="pub">
+      <div class="pub-title">How (not) to hide your data: Availability of quantitative datasets from Russia and implications for Russian Studies</div>
+      <div class="pub-authors"><strong>Romanov, D.</strong>, &amp; Libman, A.</div>
+      <div class="pub-ref">
+        <span class="pub-journal">Communist and Post-Communist Studies</span>
+        <span class="pub-status forthcoming">forthcoming</span>
+        <span>(2026)</span>
+      </div>
+    </div>
+
+    <div class="pub">
+      <div class="pub-title">Listening to an authoritarian neighbor: Russian propaganda on Chinese social media after the Ukraine invasion</div>
+      <div class="pub-authors">Ma, M., <strong>Romanov, D.</strong>, Libman, A., &amp; Kostka, G.</div>
+      <div class="pub-ref">
+        <span class="pub-journal">Political Research Quarterly</span>
+        <span>(2026), 79(1)</span>
+        <a class="pub-doi" href="https://doi.org/10.1177/10659129251395307" target="_blank">doi:10.1177/10659129251395307</a>
+      </div>
+    </div>
+
+    <div class="pub">
+      <div class="pub-title">Mirrors and mosaics: Deciphering Chinese and Russian domestic bloc-building narratives</div>
+      <div class="pub-authors">Ma, M., <strong>Romanov, D.</strong>, Libman, A., &amp; Kostka, G.</div>
+      <div class="pub-ref">
+        <span class="pub-journal">Perspectives on Politics</span>
+        <span>(2025), 1–25</span>
+        <a class="pub-doi" href="https://doi.org/10.1017/S1537592724002202" target="_blank">doi:10.1017/S1537592724002202</a>
+      </div>
+    </div>
+
+    <div class="pub">
+      <div class="pub-title">Substituting the opposition under electoral authoritarianism: The case of the regional parliamentary elections in 2021</div>
+      <div class="pub-authors"><strong>Romanov, D.</strong>, Fominykh, I., &amp; Ankudinov, I.</div>
+      <div class="pub-ref">
+        <span class="pub-journal">Russian Politics</span>
+        <span>(2023), 8(4), 519–549</span>
+        <a class="pub-doi" href="https://doi.org/10.30965/24518921-00803011" target="_blank">doi:10.30965/24518921-00803011</a>
+      </div>
+    </div>
+
+    <div class="pub">
+      <div class="pub-title">Urban youth and terrorism: A quantitative analysis (are youth bulges relevant anymore?)</div>
+      <div class="pub-authors">Korotayev, A., <strong>Romanov, D.</strong>, Zinkina, J., &amp; Slav, M.</div>
+      <div class="pub-ref">
+        <span class="pub-journal">Political Studies Review</span>
+        <span>(2023), 21(3), 548–572</span>
+        <a class="pub-doi" href="https://doi.org/10.1177/14789299221075908" target="_blank">doi:10.1177/14789299221075908</a>
+      </div>
+    </div>
+
+    <div class="pub">
+      <div class="pub-title">Urbanization, the youth, and protest: A cross-national analysis</div>
+      <div class="pub-authors">Sawyer, P. S., <strong>Romanov, D. M.</strong>, Slav, M., &amp; Korotayev, A. V.</div>
+      <div class="pub-ref">
+        <span class="pub-journal">Cross-Cultural Research</span>
+        <span>(2022), 56(2–3), 125–149</span>
+        <a class="pub-doi" href="https://doi.org/10.1177/10693971211059762" target="_blank">doi:10.1177/10693971211059762</a>
+      </div>
+    </div>
+
+    <div class="pub">
+      <div class="pub-title">Terrorism and democracy: A reconsideration</div>
+      <div class="pub-authors">Korotayev, A., Vaskin, I., &amp; <strong>Romanov, D.</strong></div>
+      <div class="pub-ref">
+        <span class="pub-journal">Comparative Sociology</span>
+        <span>(2021), 20(3), 344–379</span>
+        <a class="pub-doi" href="https://doi.org/10.1163/15691330-bja10033" target="_blank">doi:10.1163/15691330-bja10033</a>
+      </div>
+    </div>
+
+    <div class="pub">
+      <div class="pub-title">Socio-economic development and protests: A quantitative reanalysis</div>
+      <div class="pub-authors">Korotayev, A. V., Sawyer, P. S., &amp; <strong>Romanov, D. M.</strong></div>
+      <div class="pub-ref">
+        <span class="pub-journal">Comparative Sociology</span>
+        <span>(2021), 20(2), 195–222</span>
+        <a class="pub-doi" href="https://doi.org/10.1163/15691330-bja10030" target="_blank">doi:10.1163/15691330-bja10030</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- TEACHING -->
+  <section class="tab-section" id="tab-teaching">
+
+    <div class="teaching-group">
+      <div class="teaching-group-label">University of Oxford</div>
+
+      <div class="course">
+        <div class="course-header">
+          <span class="course-name">The Politics of Russia and the Former Soviet Union <span class="course-level">(Undergraduate)</span></span>
+          <span class="course-year">2026</span>
+        </div>
+        <div class="course-meta">St Edmund Hall, University of Oxford <span class="course-role">Course Convener</span></div>
+      </div>
+
+      <div class="course">
+        <div class="course-header">
+          <span class="course-name">AI in Policymaking <span class="course-level">(Undergraduate)</span></span>
+          <span class="course-year">2026</span>
+        </div>
+        <div class="course-meta">Exeter College, Oxford &amp; Williams College, US — Joint Programme <span class="course-role">Course Convener</span></div>
+      </div>
+
+      <div class="course">
+        <div class="course-header">
+          <span class="course-name">The Politics of Russia and the Former Soviet Union <span class="course-level">(Undergraduate)</span></span>
+          <span class="course-year">2026</span>
+        </div>
+        <div class="course-meta">Mansfield College, University of Oxford <span class="course-role">Course Convener</span></div>
+      </div>
+
+      <div class="course">
+        <div class="course-header">
+          <span class="course-name">Internet and Society <span class="course-level">(MSc, joint 10-hour module)</span></span>
+          <span class="course-year">2025</span>
+        </div>
+        <div class="course-meta">Oxford Internet Institute, University of Oxford <span class="course-role">Teaching Assistant</span></div>
+      </div>
+
+      <div class="course">
+        <div class="course-header">
+          <span class="course-name">Quantitative Research Methods Seminar <span class="course-level">(MA, compulsory)</span></span>
+          <span class="course-year">2025</span>
+        </div>
+        <div class="course-meta">Oxford School of Global and Area Studies, University of Oxford <span class="course-role">Course Convener</span></div>
+      </div>
+
+      <div class="course">
+        <div class="course-header">
+          <span class="course-name">Introductory Statistics Labs <span class="course-level">(MA, compulsory)</span></span>
+          <span class="course-year">2024</span>
+        </div>
+        <div class="course-meta">Department of Politics and International Relations, University of Oxford <span class="course-role">Teaching Assistant</span></div>
+      </div>
+    </div>
+
+    <div class="teaching-group">
+      <div class="teaching-group-label">HSE University &amp; Other Institutions, Moscow</div>
+
+      <div class="course">
+        <div class="course-header">
+          <span class="course-name">Research Seminar "Craft of Comparisons" <span class="course-level">(MA, compulsory — Comparative Social Research)</span></span>
+          <span class="course-year">2022–23</span>
+        </div>
+        <div class="course-meta">School of Sociology, Faculty of Social Sciences, HSE University <span class="course-role">Instructor</span> &nbsp;·&nbsp; 3 ECTS, 32 contact hours. Taught in English.</div>
+      </div>
+
+      <div class="course">
+        <div class="course-header">
+          <span class="course-name">Statistical Analysis and Statistical Software <span class="course-level">(MA, compulsory)</span></span>
+          <span class="course-year">2022</span>
+        </div>
+        <div class="course-meta">Department of Demography, HSE University <span class="course-role">Lecturer</span></div>
+      </div>
+
+      <div class="course">
+        <div class="course-header">
+          <span class="course-name">Information Technology and Applied Statistics for Sociologists <span class="course-level">(BA, compulsory)</span></span>
+          <span class="course-year">2021–22</span>
+        </div>
+        <div class="course-meta">Department of Sociology, Moscow School of Social and Economic Sciences (MSSES) <span class="course-role">Visiting Lecturer</span></div>
+      </div>
+
+      <div class="course">
+        <div class="course-header">
+          <span class="course-name">Data Analysis in Quantitative Studies <span class="course-level">(BA, compulsory)</span></span>
+          <span class="course-year">2021–22</span>
+        </div>
+        <div class="course-meta">Department of Sociology, RANEPA <span class="course-role">Visiting Lecturer</span></div>
+      </div>
+
+      <div class="course">
+        <div class="course-header">
+          <span class="course-name">Political Research and Expertise <span class="course-level">(BA, elective)</span></span>
+          <span class="course-year">2021–22</span>
+        </div>
+        <div class="course-meta">Department of Politics and Governance, HSE University <span class="course-role">Lecturer</span></div>
+      </div>
+
+      <div class="course">
+        <div class="course-header">
+          <span class="course-name">Research Seminar in Quantitative Methods <span class="course-level">(MA, compulsory)</span></span>
+          <span class="course-year">2021–22</span>
+        </div>
+        <div class="course-meta">Department of Sociology, HSE University <span class="course-role">Visiting Lecturer</span></div>
+      </div>
+
+      <div class="course">
+        <div class="course-header">
+          <span class="course-name">Research Seminar <span class="course-level">(BA, compulsory)</span></span>
+          <span class="course-year">2021–22</span>
+        </div>
+        <div class="course-meta">Department of Communications, HSE University <span class="course-role">Visiting Lecturer</span></div>
+      </div>
+
+      <div class="course">
+        <div class="course-header">
+          <span class="course-name">Transformation of Post-Soviet Space: Politics, Societies, Economies <span class="course-level">(MA, compulsory)</span></span>
+          <span class="course-year">2020</span>
+        </div>
+        <div class="course-meta">Department of Politics and Governance, HSE University <span class="course-role">Teaching Assistant</span></div>
+      </div>
+
+      <div class="course">
+        <div class="course-header">
+          <span class="course-name">Modern Russian Politics <span class="course-level">(BA, compulsory)</span></span>
+          <span class="course-year">2019</span>
+        </div>
+        <div class="course-meta">Department of Politics and Governance, HSE University <span class="course-role">Teaching Assistant</span></div>
+      </div>
+
+      <div class="course">
+        <div class="course-header">
+          <span class="course-name">New Research Agendas in Political Science <span class="course-level">(BA, compulsory)</span></span>
+          <span class="course-year">2019</span>
+        </div>
+        <div class="course-meta">Department of Politics and Governance, HSE University <span class="course-role">Teaching Assistant</span></div>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- CONTACT -->
+  <section class="tab-section" id="tab-contact">
+    <div class="section-label">Contact</div>
+    <div class="contacts">
+      <div class="contact-item">
+        <div class="contact-label">Email</div>
+        <div class="contact-val"><a href="mailto:your@email.ox.ac.uk">your@email.ox.ac.uk</a></div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-label">Twitter / X</div>
+        <div class="contact-val"><a href="https://twitter.com/yourhandle" target="_blank">@yourhandle</a></div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-label">Google Scholar</div>
+        <div class="contact-val"><a href="https://scholar.google.com/citations?user=YOURID" target="_blank">Profile</a></div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-label">Institution</div>
+        <div class="contact-val"><a href="https://www.politics.ox.ac.uk/" target="_blank">Oxford, Politics</a></div>
+      </div>
+    </div>
+  </section>
+
+  <footer>&copy; 2026 Daniil Romanov · University of Oxford</footer>
+</div>
+
+<script>
+  function showTab(name, btn) {
+    document.querySelectorAll('.tab-section').forEach(function(s) { s.classList.remove('active'); });
+    document.querySelectorAll('nav button').forEach(function(b) { b.classList.remove('active'); });
+    document.getElementById('tab-' + name).classList.add('active');
+    btn.classList.add('active');
+  }
+</script>
+</body>
+</html>
